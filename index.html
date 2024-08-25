@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deriv OAuth Redirect</title>
+</head>
+<body>
+    <h1>Login Successful!</h1>
+    <p>Please copy and paste the token from the URL and provide it to your bot.</p>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token1');  // Adjust depending on how the token is passed
+        document.write(`<p>Your token: ${token}</p>`);
+    </script>
+</body>
+</html>

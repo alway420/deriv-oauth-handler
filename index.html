@@ -5,11 +5,36 @@
 </head>
 <body>
     <h1>Login Successful!</h1>
-    <p>Please copy and paste the token from the URL and provide it to your bot.</p>
+    <p>If you see this message, your login was successful.</p>
     <script>
+        // Get the token from the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token1');  // Adjust depending on how the token is passed
-        document.write(`<p>Your token: ${token}</p>`);
+        const token = urlParams.get('token1');  // Ensure this matches how the token is passed
+
+        if (token) {
+            // Display the token for confirmation
+            document.write(`<p>Your token has been retrieved successfully.</p>`);
+
+            // Create a POST request to send the token to the local server
+            fetch('http://localhost:8000/receive-token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ token: token })
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Token sent to server successfully:', data);
+                document.write(`<p>Token has been sent to the bot successfully.</p>`);
+            })
+            .catch((error) => {
+                console.error('Error sending token to server:', error);
+                document.write(`<p>Error sending token to bot. Please try again.</p>`);
+            });
+        } else {
+            document.write(`<p>Token not found in URL.</p>`);
+        }
     </script>
 </body>
 </html>

@@ -6,34 +6,37 @@
 <body>
     <h1>Login Successful!</h1>
     <p>If you see this message, your login was successful.</p>
+    <div id="status"></div>
     <script>
         // Get the token from the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token1');  // Ensure this matches how the token is passed
 
+        const statusDiv = document.getElementById('status');
+
         if (token) {
             // Display the token for confirmation
-            document.write(`<p>Your token has been retrieved successfully.</p>`);
+            statusDiv.innerHTML = `<p>Your token has been retrieved successfully.</p>`;
 
-            // Create a POST request to send the token to the local server
-            fetch(' https://derivauth1-c668af5f3eac.herokuapp.com/receive-token', {
+            // Create a POST request to send the token to the server
+            fetch('https://derivauth1-c668af5f3eac.herokuapp.com/receive-token', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ token: token })
             })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
                 console.log('Token sent to server successfully:', data);
-                document.write(`<p>Token has been sent to the bot successfully.</p>`);
+                statusDiv.innerHTML += `<p>Token has been sent to the bot successfully.</p>`;
             })
             .catch((error) => {
                 console.error('Error sending token to server:', error);
-                document.write(`<p>Error sending token to bot. Please try again.</p>`);
+                statusDiv.innerHTML += `<p>Error sending token to bot. Please try again.</p>`;
             });
         } else {
-            document.write(`<p>Token not found in URL.</p>`);
+            statusDiv.innerHTML = `<p>Token not found in URL.</p>`;
         }
     </script>
 </body>

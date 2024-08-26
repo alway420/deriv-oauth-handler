@@ -7,26 +7,29 @@
     <h1>Login Successful!</h1>
     <p>If you see this message, your login was successful.</p>
     <script>
-        // Get the token from the URL parameters (make sure it's named 'token' in the URL)
+        // Get the token from the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');  // Ensure the URL contains ?token=<your_token>
+        const token = urlParams.get('token');  // Ensure this matches the OAuth provider's token parameter
 
         if (token) {
-            // Display a success message for the token
+            // Display the token for confirmation
             document.write(`<p>Your token has been retrieved successfully.</p>`);
 
-            // Send a POST request to the Flask server with the token
+            // Create a POST request to send the token to the local server
             fetch('http://localhost:8000/receive-token', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ token: token })  // Send the token in JSON format
+                body: JSON.stringify({ token: token })
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Token sent to server successfully:', data);
-                document.write(`<p>Token has been sent to the bot successfully.</p>`);
+                if (data.message === 'Token received successfully!') {
+                    document.write(`<p>Token has been sent to the bot successfully.</p>`);
+                } else {
+                    document.write(`<p>Failed to send the token to the bot.</p>`);
+                }
             })
             .catch((error) => {
                 console.error('Error sending token to server:', error);

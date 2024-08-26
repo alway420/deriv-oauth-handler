@@ -9,7 +9,7 @@
     <script>
         // Get the token from the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');  // Ensure this matches the OAuth provider's token parameter
+        const token = urlParams.get('token1');  // Ensure this matches how the token is passed
 
         if (token) {
             // Display the token for confirmation
@@ -23,13 +23,10 @@
                 },
                 body: JSON.stringify({ token: token })
             })
-            .then(response => response.json())
+            .then(response => response.text())
             .then(data => {
-                if (data.message === 'Token received successfully!') {
-                    document.write(`<p>Token has been sent to the bot successfully.</p>`);
-                } else {
-                    document.write(`<p>Failed to send the token to the bot.</p>`);
-                }
+                console.log('Token sent to server successfully:', data);
+                document.write(`<p>Token has been sent to the bot successfully.</p>`);
             })
             .catch((error) => {
                 console.error('Error sending token to server:', error);

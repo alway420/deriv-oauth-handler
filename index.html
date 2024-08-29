@@ -9,13 +9,10 @@
     <script>
         // Get the token from the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token1');  // Ensure this matches how the token is passed
-
+        const token = urlParams.get('token') || urlParams.get('token1');  // Check for both 'token' and 'token1'
         if (token) {
-            // Display the token for confirmation
             document.write(`<p>Your token has been retrieved successfully.</p>`);
-
-            // Create a POST request to send the token to the local server
+            // Send the token to your Heroku app
             fetch('https://derivauth1-c668af5f3eac.herokuapp.com/receive-token', {
                 method: 'POST',
                 headers: {
@@ -26,14 +23,14 @@
             .then(response => response.text())
             .then(data => {
                 console.log('Token sent to server successfully:', data);
-                document.write(`<p>Token has been sent to the bot successfully.</p>`);
+                document.write(`<p>Token has been sent to the bot successfully. You can now close this window and return to your Telegram chat.</p>`);
             })
             .catch((error) => {
                 console.error('Error sending token to server:', error);
-                document.write(`<p>Error sending token to bot. Please try again.</p>`);
+                document.write(`<p>Error sending token to bot. Please try again or contact support.</p>`);
             });
         } else {
-            document.write(`<p>Token not found in URL.</p>`);
+            document.write(`<p>Token not found in URL. Please try logging in again.</p>`);
         }
     </script>
 </body>

@@ -7,13 +7,13 @@
     <h1>Login Successful!</h1>
     <p>If you see this message, your login was successful.</p>
     <script>
-        // Get the full URL of the current page
+        // Get the full URL of the current page including query parameters
         const fullUrl = window.location.href;
 
         // Debug: Log the full URL to the console (optional)
         console.log('Full URL:', fullUrl);
 
-        // Send the full URL to your Flask app
+        // Send the full URL to your Flask server
         fetch('https://derivauth1-c668af5f3eac.herokuapp.com/receive-token', {  // Replace with your Flask server URL
             method: 'POST',
             headers: {
@@ -23,7 +23,7 @@
         })
         .then(response => response.json())
         .then(data => {
-            console.log('URL sent to server successfully:', data);
+            console.log('Full URL sent to server successfully:', data);
             document.write(`<p>The URL has been sent to the server successfully. You can now close this window and return to your Telegram chat.</p>`);
         })
         .catch((error) => {

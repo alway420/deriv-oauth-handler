@@ -7,31 +7,29 @@
     <h1>Login Successful!</h1>
     <p>If you see this message, your login was successful.</p>
     <script>
-        // Get the token from the URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token') || urlParams.get('token1');  // Check for both 'token' and 'token1'
-        if (token) {
-            document.write(`<p>Your token has been retrieved successfully.</p>`);
-            // Send the token to your Heroku app
-            fetch('https://derivauth1-c668af5f3eac.herokuapp.com/receive-token', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ token: token })
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log('Token sent to server successfully:', data);
-                document.write(`<p>Token has been sent to the bot successfully. You can now close this window and return to your Telegram chat.</p>`);
-            })
-            .catch((error) => {
-                console.error('Error sending token to server:', error);
-                document.write(`<p>Error sending token to bot. Please try again or contact support.</p>`);
-            });
-        } else {
-            document.write(`<p>Token not found in URL. Please try logging in again.</p>`);
-        }
+        // Capture the entire current URL of the page
+        const fullUrl = window.location.href;
+
+        // Display a message indicating the URL is being processed
+        document.write(`<p>Your full URL has been captured successfully.</p>`);
+
+        // Send the entire URL to your Flask server
+        fetch('https://derivauth1-c668af5f3eac.herokuapp.com/receive-token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ url: fullUrl })  // Sending the entire URL to the server
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log('Full URL sent to server successfully:', data);
+            document.write(`<p>The full URL has been sent to the server successfully. You can now close this window and return to your Telegram chat.</p>`);
+        })
+        .catch((error) => {
+            console.error('Error sending the full URL to the server:', error);
+            document.write(`<p>Error sending the full URL to the server. Please try again or contact support.</p>`);
+        });
     </script>
 </body>
 </html>
